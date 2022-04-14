@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders demo/0 correctly 1`] = `
+<div
+  class="arco-rc-tooltip-button"
+>
+  <button
+    class="arco-btn arco-btn-secondary arco-btn-size-default arco-btn-shape-square"
+    type="button"
+  >
+    <span>
+      Demo Basic
+    </span>
+  </button>
+</div>
+`;
