@@ -9,7 +9,7 @@ module.exports = {
   },
   // initial meta for 'arco generate'
   initialMeta: {
-    group: 0,
+    group: 42,
   },
   // path of arco block insertion, relative to /src ('myPath' will be resolved as '/src/myPath')
   // pathBlockInsert: 'pathRelativeToSrc',
