@@ -10,7 +10,7 @@ export default () => {
   console.log(val, 'val');
 
   return (
-    <div>
+    <div style={{ width: '90%' }}>
       <JsonSchemaEditor
         mock
         onChange={(value) => {
