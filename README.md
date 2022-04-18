@@ -23,7 +23,7 @@ import JsonSchemaEditor from '@quiet-front-end/json-schema-editor-antd';
 import '@quiet-front-end/json-schema-editor-antd/dist/css/index.css';
 import { useEffect } from 'react';
 
-export default (props: ApiEditProps) => {
+export default () => {
 
   const [jsonData, setJsonData] = useEffect({});
 
