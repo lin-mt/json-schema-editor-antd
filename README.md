@@ -18,7 +18,7 @@ arco sync
 
 ## 示例
 
-```typescript
+```typescript jsx
 import JsonSchemaEditor from '@quiet-front-end/json-schema-editor-antd';
 import '@quiet-front-end/json-schema-editor-antd/dist/css/index.css';
 import { useEffect } from 'react';
