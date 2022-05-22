@@ -1,7 +1,7 @@
-import { Message } from '@arco-design/web-react';
 import { reaction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { createContext, ReactElement, useState } from 'react';
+import { message } from 'antd';
 import Schema from './types/Schema';
 import SchemaDescription from './types/SchemaDescription';
 import Editor from './components/editor';
@@ -37,7 +37,7 @@ const JsonSchemaObserverEditor = observer((props: JsonSchemaEditorProps) => {
       try {
         defaultSchema = JSON.parse(props.data);
       } catch (e) {
-        Message.error('传入的字符串非 json 格式!');
+        message.error('传入的字符串非 json 格式!');
       }
     } else {
       defaultSchema = props.data;

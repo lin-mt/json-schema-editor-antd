@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import Schema from '../types/Schema';
-import SchemaDescription from '../types/SchemaDescription';
 
 export function getDefaultSchema(type: string): Schema {
   switch (type) {
@@ -122,7 +121,7 @@ export const handleSchemaRequired = (schema: Schema, checked: boolean): Schema =
   return newSchema;
 };
 
-function handleObject(properties: Record<string, SchemaDescription>, checked: boolean) {
+function handleObject(properties: Record<string, Schema>, checked: boolean) {
   const clonedProperties = _.cloneDeep(properties);
   for (const key in clonedProperties) {
     if (clonedProperties[key].type === 'array' || clonedProperties[key].type === 'object')
@@ -131,7 +130,7 @@ function handleObject(properties: Record<string, SchemaDescription>, checked: bo
   return clonedProperties;
 }
 
-function getFieldsTitle(data: Record<string, SchemaDescription>): string[] {
+function getFieldsTitle(data: Record<string, Schema>): string[] {
   const requiredTitle: string[] = [];
   Object.keys(data).forEach((title) => {
     requiredTitle.push(title);
