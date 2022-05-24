@@ -1,5 +1,9 @@
 # Json Schema 可视化编辑器（Antd）
 
+[Antd Design](https://ant.design/) 风格的 Json Schema 可视化编辑器。
+
+[Arco Design](https://arco.design/) 风格：https://github.com/lin-mt/json-schema-editor-arco
+
 ## 快速开始
 
 ```
@@ -17,6 +21,10 @@ arco sync
 ```
 
 ## 示例
+
+```shell
+npm install @quiet-front-end/json-schema-editor-antd
+```
 
 ```typescript jsx
 import JsonSchemaEditor from '@quiet-front-end/json-schema-editor-antd';
