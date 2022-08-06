@@ -59,9 +59,11 @@ export default class SchemaDescription {
   addField({ keys, name }: { keys: string[]; name: string }): void {
     const clonedSchema = _.clone(this.schema);
     const propertiesData = _.get(this.schema, keys);
+    let fieldName = `field_${this.fieldNum++}`;
+    while (typeof propertiesData[fieldName] !== 'undefined') {
+      fieldName = `field_${this.fieldNum++}`;
+    }
     let newPropertiesData: Record<string, Schema> = {};
-    const fieldName = `field_${this.fieldNum++}`;
-
     if (name) {
       for (const i in propertiesData) {
         newPropertiesData[i] = propertiesData[i];
