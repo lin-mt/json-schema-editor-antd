@@ -37,9 +37,12 @@ export default class SchemaDescription {
   }
 
   addChildField({ keys }: { keys: string[] }): void {
-    const fieldName = `field_${this.fieldNum++}`;
     let clonedSchema = _.clone(this.schema);
     const currentField = _.get(clonedSchema, keys);
+    let fieldName = `field_${this.fieldNum++}`;
+    while (typeof currentField[fieldName] !== 'undefined') {
+      fieldName = `field_${this.fieldNum++}`;
+    }
     if (currentField !== undefined) {
       clonedSchema = _.update(clonedSchema, keys, (n) =>
         _.assign(n, {
