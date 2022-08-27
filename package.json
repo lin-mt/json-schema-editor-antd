@@ -1,6 +1,6 @@
 {
   "name": "@quiet-front-end/json-schema-editor-antd",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Json Schema 编辑器",
   "main": "./lib/index.js",
   "module": "./es/index.js",
