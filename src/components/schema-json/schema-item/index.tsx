@@ -200,7 +200,7 @@ const SchemaItem = observer((props: SchemaItemProp): ReactElement => {
                 }
                 placeholder="title"
                 value={value.title}
-                onChange={handleChangeTitle}
+                onChange={(event) => handleChangeTitle(event.target.value)}
               />
             </Col>
 
@@ -214,7 +214,7 @@ const SchemaItem = observer((props: SchemaItemProp): ReactElement => {
                 }
                 placeholder="description"
                 value={value.description}
-                onChange={handleChangeDesc}
+                onChange={(event) => handleChangeDesc(event.target.value)}
               />
             </Col>
           </Row>

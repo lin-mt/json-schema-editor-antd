@@ -155,7 +155,7 @@ const SchemaArray = observer((props: SchemaArrayProp): ReactElement => {
                 }
                 placeholder="title"
                 value={items.title}
-                onChange={handleChangeTitle}
+                onChange={(event) => handleChangeTitle(event.target.value)}
               />
             </Col>
             <Col span={context.mock ? 5 : 6}>
@@ -168,7 +168,7 @@ const SchemaArray = observer((props: SchemaArrayProp): ReactElement => {
                 }
                 placeholder="description"
                 value={items.description}
-                onChange={handleChangeDesc}
+                onChange={(event) => handleChangeDesc(event.target.value)}
               />
             </Col>
           </Row>
