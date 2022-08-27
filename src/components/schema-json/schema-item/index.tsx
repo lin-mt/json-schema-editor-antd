@@ -108,7 +108,10 @@ const SchemaItem = observer((props: SchemaItemProp): ReactElement => {
   };
 
   //  增加子节点
-  const handleAddField = () => {
+  const handleAddField = (type: string) => {
+    if (type === 'object') {
+      return;
+    }
     mobxContext.addField({ keys: prefix, name });
   };
 
@@ -235,7 +238,7 @@ const SchemaItem = observer((props: SchemaItemProp): ReactElement => {
               </span>
             </Col>
             <Col span={8}>
-              <span className="plus" onClick={handleAddField}>
+              <span className="plus" onClick={() => handleAddField(value.type)}>
                 {value.type === 'object' ? (
                   <DropPlus prefix={prefix} name={name} />
                 ) : (

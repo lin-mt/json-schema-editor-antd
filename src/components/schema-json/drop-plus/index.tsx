@@ -15,24 +15,38 @@ const DropPlus = observer((props: DropPlusProp): ReactElement => {
   const context = useContext(SchemaMobxContext);
 
   const menu = (
-    <Menu>
-      <Menu.Item key="sibling_node">
-        <span onClick={() => context.addField({ keys: prefix, name })}>sibling_node</span>
-      </Menu.Item>
-      <Menu.Item key="child_node">
-        <span
-          onClick={() => {
-            context.setOpenValue({
-              key: prefix.concat(name, 'properties'),
-              value: true,
-            });
-            context.addChildField({ keys: prefix.concat(name, 'properties') });
-          }}
-        >
-          child_node
-        </span>
-      </Menu.Item>
-    </Menu>
+    <Menu
+      items={[
+        {
+          label: (
+            <span
+              onClick={() => {
+                context.addField({ keys: prefix, name });
+              }}
+            >
+              sibling_node
+            </span>
+          ),
+          key: 'sibling_node',
+        },
+        {
+          label: (
+            <span
+              onClick={() => {
+                context.setOpenValue({
+                  key: prefix.concat(name, 'properties'),
+                  value: true,
+                });
+                context.addChildField({ keys: prefix.concat(name, 'properties') });
+              }}
+            >
+              child_node
+            </span>
+          ),
+          key: 'child_node',
+        },
+      ]}
+    />
   );
 
   return (

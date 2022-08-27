@@ -55,13 +55,13 @@ const JsonSchemaObserverEditor = observer((props: JsonSchemaEditorProps) => {
     }
   );
 
-  reaction(
-    () => contextVal.open,
-    (open) => {
-      // eslint-disable-next-line no-console
-      console.log(JSON.parse(JSON.stringify(open)));
-    }
-  );
+  // reaction(
+  //   () => contextVal.open,
+  //   (open) => {
+  //     // eslint-disable-next-line no-console
+  //     console.log(JSON.parse(JSON.stringify(open)));
+  //   }
+  // );
 
   return (
     <div>
@@ -74,9 +74,9 @@ const JsonSchemaObserverEditor = observer((props: JsonSchemaEditorProps) => {
 
 const JsonSchemaEditor = (props: JsonSchemaEditorProps): ReactElement => {
   return (
-    <div>
+    <>
       <JsonSchemaObserverEditor {...props} />
-    </div>
+    </>
   );
 };
 
