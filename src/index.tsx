@@ -39,8 +39,15 @@ const JsonSchemaObserverEditor = observer((props: JsonSchemaEditorProps) => {
       } catch (e) {
         message.error('传入的字符串非 json 格式!');
       }
+    } else if (Object.prototype.toString.call(props.data) === '[object Object]') {
+      // fixdata是空对象首行没有加号的bug
+      if (!Object.keys(props.data).length) {
+        defaultSchema = { type: 'object' };
+      } else {
+        defaultSchema = props.data;
+      }
     } else {
-      defaultSchema = props.data;
+      message.error('json数据只支持字符串和对象');
     }
   }
 

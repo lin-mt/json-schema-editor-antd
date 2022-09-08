@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Input, AutoComplete } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { MOCK_SOURCE } from '../../constants';
@@ -12,6 +12,9 @@ type MockSelectProp = {
 
 const MockSelect = (props: MockSelectProp): ReactElement => {
   const { schema } = props;
+
+  const [open, setOpen] = useState(false);
+
   const children = MOCK_SOURCE.map((item) => ({
     label: item.name,
     value: item.mock,
@@ -28,6 +31,7 @@ const MockSelect = (props: MockSelectProp): ReactElement => {
         value={
           schema.mock ? (typeof schema.mock !== 'string' ? schema.mock?.mock : schema.mock) : ''
         }
+        open={open}
         onChange={props.onChange}
         disabled={schema.type === 'object' || schema.type === 'array'}
       >
@@ -39,6 +43,8 @@ const MockSelect = (props: MockSelectProp): ReactElement => {
               ? 'input_icon_editor_disabled'
               : 'input_icon_editor'
           }
+          onFocus={() => setOpen(true)}
+          onBlur={() => setOpen(false)}
           addonAfter={
             <EditOutlined
               className={
