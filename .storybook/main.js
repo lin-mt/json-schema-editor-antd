@@ -2,6 +2,7 @@ const path = require('path');
 const glob = require('glob');
 const fs = require('fs-extra');
 
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const isMonorepo = fs.existsSync(path.resolve('lerna.json'));
 const packagePaths = glob.sync(path.resolve(isMonorepo ? 'packages/*' : './'));
 
@@ -60,6 +61,10 @@ module.exports = {
       loader: ['@svgr/webpack'],
     });
 
+    if (!config.plugins) {
+      config.plugins = [];
+    }
+    config.plugins.push(new MonacoWebpackPlugin());
     return config;
   },
 };
