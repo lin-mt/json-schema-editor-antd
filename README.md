@@ -33,6 +33,7 @@ npm install @quiet-front-end/json-schema-editor-antd
 ```typescript jsx
 import JsonSchemaEditor from '@quiet-front-end/json-schema-editor-antd';
 import '@quiet-front-end/json-schema-editor-antd/dist/css/index.css';
+import 'antd/dist/antd.css';
 import { useEffect } from 'react';
 
 export default () => {
