@@ -276,7 +276,7 @@ const Editor = observer((props: EditorProp): ReactElement => {
         <Modal
           width={750}
           maskClosable={false}
-          visible={visible}
+          open={visible}
           title="import_json"
           onOk={handleOk}
           onCancel={handleCancel}
@@ -327,7 +327,7 @@ const Editor = observer((props: EditorProp): ReactElement => {
           }
           width={750}
           maskClosable={false}
-          visible={editVisible}
+          open={editVisible}
           onOk={() => handleEditOk(editorModalName)}
           onCancel={handleEditCancel}
           okText="ok"
@@ -346,7 +346,7 @@ const Editor = observer((props: EditorProp): ReactElement => {
             title="adv_setting"
             width={750}
             maskClosable={false}
-            visible={advVisible}
+            open={advVisible}
             onOk={handleAdvOk}
             onCancel={handleAdvCancel}
             okText="ok"

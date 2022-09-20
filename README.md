@@ -30,15 +30,15 @@ arco sync
 npm install @quiet-front-end/json-schema-editor-antd
 ```
 
-```typescript jsx
+```jsx
+import { useState } from "react";
 import JsonSchemaEditor from '@quiet-front-end/json-schema-editor-antd';
 import '@quiet-front-end/json-schema-editor-antd/dist/css/index.css';
 import 'antd/dist/antd.css';
-import { useEffect } from 'react';
 
 export default () => {
 
-  const [jsonData, setJsonData] = useEffect({});
+  const [jsonData, setJsonData] = useState({});
 
   return (
     <JsonSchemaEditor
@@ -54,3 +54,17 @@ export default () => {
 
 ![示例](./image/img.png)
 
+## 离线使用编辑器
+
+项目中的代码编辑器用的是在线加载 cdn 的方式，离线使用需自行添加以下内容
+
+```shell
+npm install monaco-editor
+```
+
+```jsx
+import { loader } from '@monaco-editor/react';
+import * as monaco from 'monaco-editor';
+
+loader.config({ monaco });
+```
