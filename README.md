@@ -34,6 +34,7 @@ npm install @quiet-front-end/json-schema-editor-antd
 import { useState } from "react";
 import JsonSchemaEditor from '@quiet-front-end/json-schema-editor-antd';
 import '@quiet-front-end/json-schema-editor-antd/dist/css/index.css';
+// 如果项目使用的是 antd-design，可不引入以下样式
 import 'antd/dist/antd.css';
 
 export default () => {
