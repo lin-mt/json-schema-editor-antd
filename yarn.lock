@@ -7931,11 +7931,6 @@ gauge@^3.0.0:
     strip-ansi "^6.0.1"
     wide-align "^1.1.2"
 
-genson-js@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.npmjs.org/genson-js/-/genson-js-0.0.8.tgz"
-  integrity sha512-4NUusDTwF+lzYh72uKV+Uvpky9iPO+YDIMpGImA5pbHfLV9HwgRCA4hYjGu78V4J4Cx2IZRTFfRERn9aUs74mw==
-
 gensync@^1.0.0-beta.1, gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
   resolved "https://registry.npmjs.org/gensync/-/gensync-1.0.0-beta.2.tgz"
@@ -11317,11 +11312,6 @@ moment@^2.22.1, moment@^2.24.0, moment@^2.29.1, moment@^2.29.2:
   version "2.29.3"
   resolved "https://registry.npmjs.org/moment/-/moment-2.29.3.tgz"
   integrity sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==
-
-monaco-editor@^0.34.0:
-  version "0.34.0"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.34.0.tgz#b1749870a1f795dbfc4dc03d8e9b646ddcbeefa7"
-  integrity sha512-VF+S5zG8wxfinLKLrWcl4WUizMx+LeJrG4PM/M78OhcwocpV0jiyhX/pG6Q9jIOhrb/ckYi6nHnaR5OojlOZCQ==
 
 moo@^0.5.0:
   version "0.5.1"

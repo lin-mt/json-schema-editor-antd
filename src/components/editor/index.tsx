@@ -1,5 +1,4 @@
 import React, { createContext, ReactElement, useContext, useState } from 'react';
-import { createSchema } from 'genson-js/dist';
 import { Button, Checkbox, Col, Input, message, Modal, Row, Select, Tabs, Tooltip } from 'antd';
 import {
   CaretDownOutlined,
@@ -18,6 +17,7 @@ import SchemaOther from '../schema-other';
 import MockSelect from '../mock-select';
 import SchemaJson from '../schema-json';
 import Schema from '../../types/Schema';
+import { createSchema } from './genson-js';
 
 interface EditorContextProp {
   changeCustomValue: (newValue: Schema) => void;
