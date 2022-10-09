@@ -1,5 +1,5 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
-import { Input, message } from 'antd';
+import React, { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+import { Input, InputRef, message } from 'antd';
 
 interface FieldInputProp {
   value: string;
@@ -9,6 +9,9 @@ interface FieldInputProp {
 
 const FieldInput = (props: FieldInputProp): ReactElement => {
   const [fieldValue, setFieldValue] = useState<string>(props.value);
+  const [status, setStatus] = useState<'' | 'warning' | 'error'>('');
+  const [placeholder, setPlaceholder] = useState<string>();
+  const ref = useRef<InputRef>(null);
 
   useEffect(() => {
     setFieldValue(props.value);
@@ -17,6 +20,17 @@ const FieldInput = (props: FieldInputProp): ReactElement => {
   const handleChange = (value) => {
     if (value.length === 0) {
       message.warn('FieldName can not empty.').then();
+      setStatus('error');
+      setFieldValue((prevState) => {
+        setPlaceholder(prevState);
+        return value;
+      });
+      return;
+    }
+    if (placeholder === value) {
+      setFieldValue(value);
+      setPlaceholder('');
+      setStatus('');
       return;
     }
     if (props.onChange(value) && value) {
@@ -24,10 +38,23 @@ const FieldInput = (props: FieldInputProp): ReactElement => {
     }
   };
 
+  useEffect(() => {
+    ref.current.input.addEventListener('focusout', () => {
+      if (fieldValue.length === 0) {
+        message.warn('FieldName can not empty.').then();
+        ref.current.input.focus();
+      }
+    });
+  });
+
   return (
     <Input
+      autoFocus
+      ref={ref}
+      status={status}
       addonAfter={props.addonAfter}
       value={fieldValue}
+      placeholder={placeholder}
       onChange={(ele) => handleChange(ele.target.value)}
     />
   );
