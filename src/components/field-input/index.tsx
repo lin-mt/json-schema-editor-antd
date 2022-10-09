@@ -27,10 +27,10 @@ const FieldInput = (props: FieldInputProp): ReactElement => {
       });
       return;
     }
+    setPlaceholder('');
+    setStatus('');
     if (placeholder === value) {
       setFieldValue(value);
-      setPlaceholder('');
-      setStatus('');
       return;
     }
     if (props.onChange(value) && value) {
@@ -39,13 +39,13 @@ const FieldInput = (props: FieldInputProp): ReactElement => {
   };
 
   useEffect(() => {
-    ref.current.input.addEventListener('focusout', () => {
-      if (fieldValue.length === 0) {
+    ref.current.input.addEventListener('blur', () => {
+      if (ref.current.input.value.length === 0) {
         message.warn('FieldName can not empty.').then();
         ref.current.input.focus();
       }
     });
-  });
+  }, []);
 
   return (
     <Input
