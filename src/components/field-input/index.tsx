@@ -53,7 +53,6 @@ const FieldInput = (props: FieldInputProp): ReactElement => {
 
   return (
     <Input
-      autoFocus
       ref={ref}
       status={status}
       addonAfter={props.addonAfter}
