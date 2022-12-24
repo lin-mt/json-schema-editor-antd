@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import JsonSchemaEditor from '@quiet-front-end/json-schema-editor-antd';
-import { Button, Divider } from 'antd';
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types,no-console */
 // noinspection NpmUsedModulesInstalled
@@ -34,8 +33,9 @@ export default () => {
 
   return (
     <div style={{ width: '90%' }}>
-      <Button onClick={updateVal}>update schema</Button>
-      <Divider />
+      <button style={{ marginBottom: 20, cursor: 'pointer' }} onClick={updateVal}>
+        update schema
+      </button>
       <JsonSchemaEditor
         mock
         data={val}
