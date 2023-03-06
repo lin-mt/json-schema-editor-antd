@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { reaction } from 'mobx';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import React, { createContext, ReactElement, useEffect, useState } from 'react';
 import Editor from './components/editor';
 import './index.less';
