@@ -1,18 +1,16 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
     "jsx": "react",
-    "module": "es6",
-    "target": "es5",
-    "lib": ["es5", "dom"],
-    "types": ["node", "jest"]
+    "baseUrl": "./",
+    "paths": {
+      "@@/*": [".dumi/tmp/*"],
+      "@quiet-front-end/json-schema-editor-antd": ["src"],
+      "@quiet-front-end/json-schema-editor-antd/*": ["src/*", "*"]
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules", "src/**/*.test.tsx", "src/**/*.test.ts", "src/demo/*.*"]
+  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*"]
 }
