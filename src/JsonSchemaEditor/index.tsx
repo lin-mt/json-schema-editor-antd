@@ -1,100 +1,228 @@
 import { message } from 'antd';
-import { reaction } from 'mobx';
-import { observer } from 'mobx-react';
-import React, { createContext, ReactElement, useEffect, useState } from 'react';
-import Editor from './components/editor';
-import './index.less';
-import Schema from './types/Schema';
-import SchemaDescription from './types/SchemaDescription';
+import _ from 'lodash';
+import React, { useEffect, useState } from 'react';
+import SchemaItem from './SchemaItem';
+import { JSONSchema7, SchemaEditorProps } from './types';
+import { getDefaultSchema, inferSchema } from './utils';
 
-/**
- * @title JsonSchemaEditor
- */
-export interface JsonSchemaEditorProps {
-  /**
-   * @zh 是否开启 mock
-   */
-  mock?: boolean;
-  /**
-   * @zh 是否展示 json 编辑器
-   */
-  jsonEditor?: boolean;
-  /**
-   * @zh Schema 变更的回调
-   */
-  onChange?: (schema: Schema) => void;
-  /**
-   * @zh 初始化 Schema
-   */
-  data?: Schema | string;
-}
+function JsonSchemaEditor(props: SchemaEditorProps) {
+  // const [schema, setSchema] = useState<JSONSchema7>({
+  //   type: 'object', properties: {
+  //     'objectP': {type: 'object', properties: {'o1numberP': {type: 'number'}}},
+  //     'numberP': {type: 'number'},
+  //     'booleanP': {type: 'boolean'},
+  //     'arrayString': {type: 'array', items: {type: 'string'}},
+  //     'arrayObject': {type: 'array', items: {type: 'object', properties: {'arrayObjStr': {type: 'string'}}}},
+  //     'integerP': {type: 'integer'},
+  //     'stringP': {type: 'string'},
+  //   }
+  // })
+  const [messageApi, contextHolder] = message.useMessage();
 
-export const SchemaMobxContext = createContext<SchemaDescription>(
-  new SchemaDescription(),
-);
+  function initSchema(data: string | undefined | JSONSchema7): JSONSchema7 {
+    const defaultSchema: JSONSchema7 = {
+      type: 'object',
+      properties: {
+        field: { type: 'string' },
+      },
+    };
+    if (!data) {
+      return defaultSchema;
+    }
+    switch (typeof data) {
+      case 'string':
+        try {
+          return inferSchema(JSON.parse(data));
+        } catch (e) {
+          messageApi.warning('初始化数据不是 Json 字符串，无法生成 JsonSchema');
+          return defaultSchema;
+        }
+      case 'object':
+        return data;
+    }
+  }
 
-const JsonSchemaObserverEditor = observer((props: JsonSchemaEditorProps) => {
-  const [contextVal] = useState<SchemaDescription>(new SchemaDescription());
+  const [schema, setSchema] = useState<JSONSchema7>(initSchema(props.data));
+  const [fieldCount, setFieldCount] = useState(0);
 
   useEffect(() => {
-    let defaultSchema;
-    if (props.data) {
-      if (typeof props.data === 'string') {
-        try {
-          defaultSchema = JSON.parse(props.data);
-        } catch (e) {
-          message.error('传入的字符串非 json 格式!');
-        }
-      } else if (
-        Object.prototype.toString.call(props.data) === '[object Object]'
-      ) {
-        // fix data是空对象首行没有加号的bug
-        if (!Object.keys(props.data).length) {
-          defaultSchema = { type: 'object' };
-        } else {
-          defaultSchema = props.data;
-        }
+    if (props.onSchemaChange) {
+      props.onSchemaChange(schema);
+    }
+  }, [schema]);
+
+  function changeSchema(namePath: number[], value: any, propertyName: string) {
+    // console.log("changeSchema", namePath, value, propertyName);
+    if (namePath.length === 0) {
+      setSchema(value);
+      return;
+    }
+    let schemaClone = _.cloneDeep(schema);
+    let current: any = schemaClone;
+    for (let i = 0; i < namePath.length - 1; i++) {
+      const key = Object.keys(current)[namePath[i]];
+      if (!current[key]) {
+        current[key] = {};
+      }
+      current = current[key];
+    }
+    const lastKey = namePath[namePath.length - 1];
+    const lastKeyActual = Object.keys(current)[lastKey];
+    if (lastKey === -1) {
+      if (typeof value === 'undefined') {
+        return;
+      }
+      current[propertyName] = value;
+    } else {
+      if (current[lastKeyActual] === value) {
+        return;
+      }
+      current[lastKeyActual] = value;
+    }
+    setSchema(schemaClone);
+  }
+
+  function renameProperty(path: number[], newKey: string | number): void {
+    let schemaClone = _.cloneDeep(schema);
+    let current: any = schemaClone;
+    let parent: any = null;
+    let lastKey: string | number = '';
+    for (let i = 0; i < path.length - 1; i++) {
+      const keys = Object.keys(current);
+      let index: number;
+      if (typeof path[i] === 'number') {
+        index = path[i] as number;
       } else {
-        message.error('json数据只支持字符串和对象');
+        index = keys.indexOf(String(path[i]));
+      }
+      if (index < 0 || index >= keys.length) {
+        console.error(`Path not found: ${path.slice(0, i + 1).join('.')}`);
+        return;
+      }
+      parent = current;
+      lastKey = keys[index];
+      current = current[lastKey];
+    }
+    const oldKeyIndex = path[path.length - 1];
+    const keys = Object.keys(current);
+    const oldKey = keys[oldKeyIndex];
+    if (oldKey === newKey) {
+      return;
+    }
+    if (current.hasOwnProperty(oldKey)) {
+      parent[lastKey] = Object.fromEntries(
+        Object.entries(current).map(([key, value]) => {
+          if (key === oldKey) {
+            return [newKey, value];
+          }
+          return [key, value];
+        }),
+      );
+    } else {
+      console.error(`Key not found: ${oldKey}`);
+      return;
+    }
+    setSchema(schemaClone);
+  }
+
+  function updateRequired(target: any, property: string, remove: boolean) {
+    if (!target.required) {
+      target.required = [];
+    }
+    const index = target.required.indexOf(property);
+    if (remove) {
+      if (index !== -1) {
+        target.required.splice(index, 1);
       }
     } else {
-      defaultSchema = { type: 'object' };
-    }
-    contextVal.changeSchema(defaultSchema);
-  }, [JSON.stringify(props.data)]);
-
-  reaction(
-    () => contextVal.schema,
-    (schema) => {
-      if (props.onChange) {
-        props.onChange(JSON.parse(JSON.stringify(schema)));
+      if (index === -1) {
+        target.required.push(property);
       }
-    },
-  );
+    }
+    if (target.required.length === 0) {
+      delete target.required;
+    }
+  }
 
-  // reaction(
-  //   () => contextVal.open,
-  //   (open) => {
-  //     // eslint-disable-next-line no-console
-  //     console.log(JSON.parse(JSON.stringify(open)));
-  //   }
-  // );
+  function updateRequiredProperty(
+    path: number[],
+    requiredProperty: string,
+    removed: boolean,
+  ) {
+    // console.log("updateRequiredProperty", path, requiredProperty, removed);
+    let schemaClone = _.cloneDeep(schema);
+    let current: any = schemaClone;
+    for (let i = 0; i < path.length; i++) {
+      const index = path[i];
+      const keys = Object.keys(current);
+      if (typeof current[keys[index]] === 'undefined') {
+        current[keys[index]] = {};
+      }
+      current = current[keys[index]];
+    }
+    updateRequired(current, requiredProperty, removed);
+    setSchema(schemaClone);
+  }
+
+  function removeProperty(path: number[]) {
+    let schemaClone = _.cloneDeep(schema);
+    let current: any = schemaClone;
+    let pre: any = schemaClone;
+    for (let i = 0; i < path.length - 1; i++) {
+      if (current !== undefined && current !== null) {
+        pre = current;
+        current = current[Object.keys(current)[path[i]]];
+      } else {
+        console.error('移除的路径无效', path);
+        return; // 如果路径无效，则直接返回
+      }
+    }
+    let finalKey = Object.keys(current)[path[path.length - 1]];
+    updateRequired(pre, finalKey, true);
+    if (
+      current &&
+      typeof current === 'object' &&
+      current.hasOwnProperty(finalKey)
+    ) {
+      delete current[finalKey];
+    }
+    setSchema(schemaClone);
+  }
+
+  function addProperty(namePath: number[], isChild: boolean) {
+    // console.log(namePath, isChild, 'addProperty');
+    let schemaClone = _.cloneDeep(schema);
+    let current: any = schemaClone;
+    for (let i = 0; i < namePath.length - (isChild ? 0 : 1); i++) {
+      const key = Object.keys(current)[namePath[i]];
+      if (!current[key]) {
+        current[key] = {};
+      }
+      current = current[key];
+    }
+    const newSchema = getDefaultSchema('string');
+    if (isChild) {
+      current['properties'][`field_${fieldCount}`] = newSchema;
+    } else {
+      current[`field_${fieldCount}`] = newSchema;
+    }
+    setFieldCount(fieldCount + 1);
+    setSchema(schemaClone);
+  }
 
   return (
-    <div>
-      <SchemaMobxContext.Provider value={contextVal}>
-        <Editor jsonEditor={props.jsonEditor} mock={props.mock} />
-      </SchemaMobxContext.Provider>
+    <div style={{ paddingTop: '10px 10px 0 10px' }}>
+      {contextHolder}
+      <SchemaItem
+        schema={schema}
+        changeSchema={changeSchema}
+        renameProperty={renameProperty}
+        removeProperty={removeProperty}
+        addProperty={addProperty}
+        updateRequiredProperty={updateRequiredProperty}
+      />
     </div>
   );
-});
-
-const JsonSchemaEditor = (props: JsonSchemaEditorProps): ReactElement => {
-  return (
-    <>
-      <JsonSchemaObserverEditor {...props} />
-    </>
-  );
-};
+}
 
 export default JsonSchemaEditor;

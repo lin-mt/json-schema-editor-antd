@@ -12,5 +12,5 @@
       "@quiet-front-end/json-schema-editor-antd/*": ["src/*", "*"]
     }
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*"]
+  "include": [".dumirc.ts", "src/**/*"]
 }

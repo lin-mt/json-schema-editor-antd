@@ -8,13 +8,13 @@ hero:
     - text: Github
       link: https://github.com/lin-mt/json-schema-editor-antd
 features:
-  - title: 高颜值
-    emoji: 🌹
+  #  - title: Hello
+  - emoji: 💎
     description: 基于最新的 antd 版本构建
-  - title: 可视化
-    emoji: 🧐
+  #  - title: World
+  - emoji: 🧐
     description: 可视化编辑 Json Schema
-  - title: Mock
-    emoji: 🎭
-    description: 支持多种数据格式的 Mock
+  #  - title: '!'
+  - emoji: 🚀
+    description: JSON Schema Draft 07 标准
 ---
