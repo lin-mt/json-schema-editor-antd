@@ -19,13 +19,12 @@ import { useState } from 'react';
 import JsonSchemaEditor from '@quiet-front-end/json-schema-editor-antd';
 
 export default () => {
-  const [jsonData, setJsonData] = useState({});
+  const [jsonSchema, setJsonSchema] = useState();
   return (
     <JsonSchemaEditor
-      mock={true}
-      data={jsonData}
+      data={jsonSchema}
       onChange={(data) => {
-        setJsonData(data);
+        setJsonSchema(data);
       }}
     />
   );
