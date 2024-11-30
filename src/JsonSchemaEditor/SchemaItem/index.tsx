@@ -14,7 +14,6 @@ import {
   Form,
   Input,
   InputNumber,
-  MenuProps,
   Modal,
   Radio,
   Row,
@@ -142,49 +141,25 @@ function SchemaItem(props: SchemaItemProps) {
     setIsString(formSchema.type === 'string');
   }, [advancedModal, formSchema]);
 
-  function addNodeItems(): MenuProps['items'] {
-    let items: MenuProps['items'] = [];
-    const schemaItems: any = schema.items;
-    const addChildNode: boolean = !!(
-      schema.type === 'object' ||
-      (isArrayItems && schemaItems?.type === 'object')
-    );
-    const addSiblingNode: boolean = !isArrayItems && !isRoot;
-    if (addChildNode && addSiblingNode) {
-      items = items.concat(
-        {
-          key: 'addNode',
-          label: '同级节点',
-          onClick: () => {
-            if (addProperty) {
-              addProperty(namePath, false);
-            }
-          },
-        },
-        {
-          key: 'addChildNode',
-          label: '子级节点',
-          onClick: () => {
-            if (addProperty) {
-              addProperty(namePath, true);
-            }
-          },
-        },
-      );
-    }
-    return items;
-  }
-
   function handleEditorDidMount(editor: any) {
     editorRef.current = editor;
   }
+
+  const schemaItems: any = schema.items;
+  const addChildItems =
+    !!(
+      schema.type === 'object' ||
+      (isArrayItems && schemaItems?.type === 'object')
+    ) &&
+    !isArrayItems &&
+    !isRoot;
 
   return (
     <>
       {contextHolder}
       <Row align={'middle'} style={{ paddingBottom: 10 }}>
         <Col
-          flex={`${(nodeDepth + 1) * 24}px`}
+          flex={`${(nodeDepth + 1) * 21}px`}
           style={{ marginLeft: nodeDepth * 5 }}
         >
           <Row justify={'end'}>
@@ -295,16 +270,40 @@ function SchemaItem(props: SchemaItemProps) {
               />
             </Tooltip>
             {!isRoot || !isArrayItems || schema.type === 'object' ? (
-              <Dropdown placement="bottom" menu={{ items: addNodeItems() }}>
-                <Tooltip title={'添加节点'}>
+              <Dropdown
+                disabled={!addChildItems}
+                placement="bottom"
+                menu={{
+                  items: [
+                    {
+                      key: 'addNode',
+                      label: '同级节点',
+                      onClick: () => {
+                        if (addProperty) {
+                          addProperty(namePath, false);
+                        }
+                      },
+                    },
+                    {
+                      key: 'addChildNode',
+                      label: '子级节点',
+                      onClick: () => {
+                        if (addProperty) {
+                          addProperty(namePath, true);
+                        }
+                      },
+                    },
+                  ],
+                }}
+              >
+                <Tooltip title={!addChildItems && '添加节点'}>
                   <Button
                     type={'text'}
                     size={'small'}
                     icon={<PlusOutlined />}
                     style={{ color: token.colorPrimary }}
                     onClick={() => {
-                      const items = addNodeItems();
-                      if (!items || items.length === 2) {
+                      if (addChildItems) {
                         return;
                       }
                       if (addProperty) {

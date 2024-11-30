@@ -66,8 +66,8 @@ const MonacoEditor = (props: QuietEditorProp): ReactElement => {
           // 是否可以滚动到最后一行，可以往上滚动超出内容范围
           scrollBeyondLastLine: false,
           // 左边空出来的宽度
-          lineDecorationsWidth: 5,
-          lineNumbersMinChars: 3,
+          // lineDecorationsWidth: 5,
+          // lineNumbersMinChars: 3,
           // 滚动条样式
           scrollbar: {
             verticalScrollbarSize: 9,
