@@ -14,26 +14,26 @@ import {
   Form,
   Input,
   InputNumber,
+  message,
   Modal,
   Radio,
   Row,
   Select,
   Switch,
-  Tooltip,
-  message,
   theme,
+  Tooltip,
 } from 'antd';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import MonacoEditor from '../MonacoEditor';
 import { JSONSchema7 } from '../types';
 import {
-  SchemaTypeOptions,
-  SchemaTypes,
-  StringFormat,
   getDefaultSchema,
   getPropertyIndex,
   inferSchema,
+  SchemaTypeOptions,
+  SchemaTypes,
+  StringFormat,
 } from '../utils';
 
 type SchemaItemProps = {
@@ -159,7 +159,7 @@ function SchemaItem(props: SchemaItemProps) {
       {contextHolder}
       <Row align={'middle'} style={{ paddingBottom: 10 }}>
         <Col
-          flex={`${(nodeDepth + 1) * 21}px`}
+          flex={`${24 + nodeDepth * 17}px`}
           style={{ marginLeft: nodeDepth * 5 }}
         >
           <Row justify={'end'}>
@@ -390,7 +390,7 @@ function SchemaItem(props: SchemaItemProps) {
       )}
       <Modal
         title="高级设置"
-        width={700}
+        width={900}
         open={advancedModal}
         okText={'保存'}
         cancelText={'取消'}

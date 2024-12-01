@@ -59,7 +59,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
     "@monaco-editor/react": "^4.6.0",
-    "antd": "^5.18.0",
+    "antd": "^5.22.2",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
