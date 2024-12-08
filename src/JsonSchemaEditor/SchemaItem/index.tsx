@@ -23,6 +23,7 @@ import {
   theme,
   Tooltip,
 } from 'antd';
+import { Draft07 } from 'json-schema-library';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import MonacoEditor from '../MonacoEditor';
@@ -30,7 +31,8 @@ import { JSONSchema7 } from '../types';
 import {
   getDefaultSchema,
   getPropertyIndex,
-  inferSchema,
+  parseJsonStr,
+  resolveJsonSchemaRef,
   SchemaTypeOptions,
   SchemaTypes,
   StringFormat,
@@ -153,6 +155,10 @@ function SchemaItem(props: SchemaItemProps) {
     ) &&
     !isArrayItems &&
     !isRoot;
+
+  if (!schema.type) {
+    return <></>;
+  }
 
   return (
     <>
@@ -779,25 +785,23 @@ function SchemaItem(props: SchemaItemProps) {
         okText={'导入'}
         cancelText={'取消'}
         open={importModal}
-        onOk={() => {
+        onOk={async () => {
           if (!importValue || importValue.length === 0) {
             messageApi.warning('请输入导入的 Json 数据');
             return;
           }
-          let importJson;
-          try {
-            importJson = JSON.parse(importValue);
-          } catch (e) {
+          const importObject = parseJsonStr(importValue);
+          if (!importObject) {
             messageApi.error('导入的内容不是 Json 格式的数据');
             return;
           }
           let schema;
           switch (importType) {
             case 'json':
-              schema = inferSchema(importJson);
+              schema = new Draft07().createSchemaOf(importObject);
               break;
             case 'json-schema':
-              schema = importJson;
+              schema = await resolveJsonSchemaRef(importObject);
               break;
           }
           if (changeSchema) {
