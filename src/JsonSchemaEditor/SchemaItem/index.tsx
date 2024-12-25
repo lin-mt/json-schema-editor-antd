@@ -275,7 +275,7 @@ function SchemaItem(props: SchemaItemProps) {
                 }}
               />
             </Tooltip>
-            {!isRoot || !isArrayItems || schema.type === 'object' ? (
+            {!isRoot && !isArrayItems || schema.type === 'object' ? (
               <Dropdown
                 disabled={!addChildItems}
                 placement="bottom"
