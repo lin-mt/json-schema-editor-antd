@@ -44,6 +44,7 @@ type SchemaItemProps = {
   parentSchemaDepth?: number;
   namePath?: number[];
   isArrayItems?: boolean;
+  isRequire?: boolean;
   schema: JSONSchema7;
   changeSchema?: (namePath: number[], value: any, propertyName: string) => void;
   renameProperty?: (namePath: number[], name: string) => void;
@@ -68,6 +69,7 @@ function SchemaItem(props: SchemaItemProps) {
     parentSchemaDepth = 0,
     removeProperty,
     addProperty,
+    isRequire,
   } = props;
 
   const [schema, setSchema] = useState(props.schema);
@@ -204,6 +206,7 @@ function SchemaItem(props: SchemaItemProps) {
         <Col flex={'16px'} style={{ marginLeft: 5 }}>
           <Checkbox
             disabled={isArrayItems || isRoot}
+            checked={isRequire}
             onChange={(e) => {
               if (updateRequiredProperty && propertyName) {
                 updateRequiredProperty(
@@ -275,7 +278,7 @@ function SchemaItem(props: SchemaItemProps) {
                 }}
               />
             </Tooltip>
-            {!isRoot && !isArrayItems || schema.type === 'object' ? (
+            {(!isRoot && !isArrayItems) || schema.type === 'object' ? (
               <Dropdown
                 disabled={!addChildItems}
                 placement="bottom"
@@ -368,6 +371,7 @@ function SchemaItem(props: SchemaItemProps) {
               <div key={String(name)}>
                 <SchemaItem
                   {...props}
+                  isRequire={schema.required?.includes(name)}
                   isArrayItems={false}
                   nodeDepth={nodeDepth + 1}
                   parentSchemaDepth={!isRoot ? parentSchemaDepth + 2 : 0}
@@ -386,6 +390,7 @@ function SchemaItem(props: SchemaItemProps) {
       {schema.type === 'array' && expand && (
         <SchemaItem
           {...props}
+          isRequire={false}
           isArrayItems={true}
           nodeDepth={nodeDepth + 1}
           parentSchemaDepth={!isRoot ? parentSchemaDepth + 1 : 0}
