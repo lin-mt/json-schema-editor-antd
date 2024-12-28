@@ -702,10 +702,11 @@ function SchemaItem(props: SchemaItemProps) {
                 <Form.List name="enums">
                   {(fields, { add, remove }) => (
                     <>
-                      <Row>
+                      <Row gutter={6}>
                         {fields.map(({ key, name, ...restField }) => (
                           <Col span={12} key={key}>
                             <Row
+                              gutter={2}
                               justify={'start'}
                               align={'middle'}
                               style={{ marginBottom: 6 }}
@@ -728,15 +729,21 @@ function SchemaItem(props: SchemaItemProps) {
                                   )}
                                 </Form.Item>
                               </Col>
-                              <Col flex={'36px'} style={{ paddingLeft: 7 }}>
-                                <DeleteOutlined onClick={() => remove(name)} />
+                              <Col flex={'24px'}>
+                                <Button
+                                  icon={<DeleteOutlined />}
+                                  size={'small'}
+                                  type={'text'}
+                                  danger={true}
+                                  onClick={() => remove(name)}
+                                />
                               </Col>
                             </Row>
                           </Col>
                         ))}
                       </Row>
                       <Row>
-                        <Col span={12}>
+                        <Col span={6}>
                           <Form.Item noStyle>
                             <Button
                               onClick={() => add()}
