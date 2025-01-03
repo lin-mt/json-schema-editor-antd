@@ -417,7 +417,11 @@ function SchemaItem(props: SchemaItemProps) {
           advancedForm
             .validateFields()
             .then((values) => {
-              changeSchema(namePath, { ...schema, ...values }, propertyName);
+              changeSchema(
+                namePath,
+                { ...schema, ...formSchema, ...values },
+                propertyName,
+              );
               setAdvancedModal(!advancedModal);
             })
             .catch((errorInfo) => {
