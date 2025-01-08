@@ -46,7 +46,11 @@ type SchemaItemProps = {
   isArrayItems?: boolean;
   isRequire?: boolean;
   schema: JSONSchema7;
-  changeSchema?: (namePath: number[], value: any, propertyName: string) => void;
+  changeSchema?: (
+    namePath: number[],
+    value: any,
+    propertyName?: string,
+  ) => void;
   renameProperty?: (namePath: number[], name: string) => void;
   removeProperty?: (namePath: number[]) => void;
   addProperty?: (path: number[], isChild: boolean) => void;
@@ -55,6 +59,11 @@ type SchemaItemProps = {
     requiredProperty: string,
     removed: boolean,
   ) => void;
+  handleAdvancedSettingClick?: (
+    namePath: number[],
+    schema: JSONSchema7,
+    propertyName?: string,
+  ) => boolean;
 };
 
 function SchemaItem(props: SchemaItemProps) {
@@ -70,6 +79,7 @@ function SchemaItem(props: SchemaItemProps) {
     removeProperty,
     addProperty,
     isRequire,
+    handleAdvancedSettingClick,
   } = props;
 
   const [schema, setSchema] = useState(props.schema);
@@ -273,6 +283,18 @@ function SchemaItem(props: SchemaItemProps) {
                 icon={<SettingOutlined />}
                 style={{ color: 'green' }}
                 onClick={() => {
+                  if (
+                    handleAdvancedSettingClick &&
+                    !handleAdvancedSettingClick(
+                      namePath,
+                      schema,
+                      isRoot || schema.type === 'object'
+                        ? undefined
+                        : propertyName,
+                    )
+                  ) {
+                    return;
+                  }
                   setFormSchema(schema);
                   setAdvancedModal(!advancedModal);
                 }}
@@ -410,7 +432,7 @@ function SchemaItem(props: SchemaItemProps) {
             return;
           }
           if (isRoot || schema.type === 'object') {
-            changeSchema(namePath, { ...schema, ...formSchema }, 'root');
+            changeSchema(namePath, { ...schema, ...formSchema });
             setAdvancedModal(!advancedModal);
             return;
           }
@@ -821,7 +843,7 @@ function SchemaItem(props: SchemaItemProps) {
               break;
           }
           if (changeSchema) {
-            changeSchema([], schema, 'root');
+            changeSchema([], schema);
             setImportModal(!importModal);
             setImportValue(undefined);
           }

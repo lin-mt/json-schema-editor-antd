@@ -1,6 +1,11 @@
 export type SchemaEditorProps = {
   data?: JSONSchema7 | undefined | string;
   onSchemaChange?: (schema: JSONSchema7) => void;
+  handleAdvancedSettingClick?: (
+    namePath: number[],
+    schema: JSONSchema7,
+    propertyName?: string,
+  ) => boolean;
 };
 
 //==================================================================================================

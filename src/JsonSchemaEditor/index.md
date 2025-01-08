@@ -33,7 +33,48 @@ loader.config({ monaco });
 
 ## API
 
-| 参数名称 | 描述                  | 类型                               | 默认值                                                            |
-| -------- | --------------------- | ---------------------------------- | ----------------------------------------------------------------- |
-| onChange | JsonSchema 变更的回调 | (schema: JSONSchema7) => void      | -                                                                 |
-| data     | 初始化组件数据        | JSONSchema7 \| string \| undefined | `{"type": "object", "properties": {"field": {"type": "string"}}}` |
+### onChange
+
+JsonSchema 变更的回调。
+
+类型：`(schema: JSONSchema7) => void`
+
+默认值： `-`
+
+### data
+
+初始化组件数据。
+
+类型：`JSONSchema7 | string | undefined`
+
+默认值：
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "field": {
+      "type": "string"
+    }
+  }
+}
+```
+
+### handleAdvancedSettingClick
+
+点击`高级设置`按钮的回调，返回`false`：不使用默认表单，返回`true`：使用默认表单。
+
+类型：`(namePath: number[], schema: JSONSchema7, propertyName?: string) => boolean`
+
+默认值：`-`
+
+说明：一般结合`组件引用`实现点击高级设置按钮后的自定义需求。
+
+## 组件引用（ref）
+
+```ts
+export interface JsonSchemaEditorHandle {
+  /* 更新指定路径下的 JsonSchema */
+  changeSchema: (namePath: number[], value: any, propertyName?: string) => void;
+}
+```
