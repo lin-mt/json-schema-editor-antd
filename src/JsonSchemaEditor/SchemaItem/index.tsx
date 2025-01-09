@@ -403,6 +403,7 @@ function SchemaItem(props: SchemaItemProps) {
                   )}
                   propertyName={name}
                   schema={schema.properties[name] as JSONSchema7}
+                  handleAdvancedSettingClick={handleAdvancedSettingClick}
                 />
               </div>
             );
@@ -419,6 +420,7 @@ function SchemaItem(props: SchemaItemProps) {
           propertyName={'items'}
           namePath={namePath.concat(getPropertyIndex(schema, 'items'))}
           schema={schema.items as JSONSchema7}
+          handleAdvancedSettingClick={handleAdvancedSettingClick}
         />
       )}
       <Modal
