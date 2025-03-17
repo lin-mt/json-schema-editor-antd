@@ -180,6 +180,22 @@ export function getPropertyIndex(obj: any, propName: string): number {
   return keys.indexOf(propName);
 }
 
+export function getValueByPath(obj: any, path: number[]): any {
+  if (path.length === 0) {
+    return obj;
+  }
+  let current = obj;
+  for (let i = 0; i < path.length; i++) {
+    const key = Object.keys(current)[path[i]];
+    if (key === undefined) {
+      return undefined;
+    } else {
+      current = current[key];
+    }
+  }
+  return current;
+}
+
 export const StringFormat = [
   { value: 'date-time' },
   { value: 'date' },
