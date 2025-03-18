@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import SchemaItem from './SchemaItem';
 import { JSONSchema7, SchemaEditorProps } from './types';
-import { getDefaultSchema, inferSchema } from './utils';
+import { getDefaultSchema, getValueByPath, inferSchema } from './utils';
 
 export interface JsonSchemaEditorHandle {
   changeSchema: (namePath: number[], value: any, propertyName?: string) => void;
@@ -168,23 +168,31 @@ const JsonSchemaEditor = forwardRef<JsonSchemaEditorHandle, SchemaEditorProps>(
       }
     }
 
-    function updateRequiredProperty(
-      path: number[],
-      requiredProperty: string,
-      removed: boolean,
-    ) {
-      // console.log("updateRequiredProperty", path, requiredProperty, removed);
-      let schemaClone = _.cloneDeep(schema);
-      let current: any = schemaClone;
-      for (let i = 0; i < path.length; i++) {
-        const index = path[i];
-        const keys = Object.keys(current);
-        if (typeof current[keys[index]] === 'undefined') {
-          current[keys[index]] = {};
-        }
-        current = current[keys[index]];
+    function updateRequiredProperty(namePath: number[], removed: boolean) {
+      if (namePath.length < 2) {
+        console.error('路径长度不足，无法更新必选属性');
+        return;
       }
-      updateRequired(current, requiredProperty, removed);
+
+      let schemaClone = _.cloneDeep(schema);
+
+      const parentPath = namePath.slice(0, -2);
+      const propertyIndex = namePath[namePath.length - 1];
+
+      const parentObject = getValueByPath(schemaClone, parentPath);
+      if (!parentObject || !parentObject.properties) {
+        console.error('无法找到必选属性的父对象', parentObject);
+        return;
+      }
+
+      const propertyKeys = Object.keys(parentObject.properties);
+      if (propertyIndex < 0 || propertyIndex >= propertyKeys.length) {
+        console.error('属性索引超出范围', propertyIndex);
+        return;
+      }
+
+      const propertyName = propertyKeys[propertyIndex];
+      updateRequired(parentObject, propertyName, removed);
       setSchema(schemaClone);
     }
 
