@@ -2,6 +2,7 @@ import Ajv from 'ajv';
 import { message, Modal, Radio, Row } from 'antd';
 import { Draft07 } from 'json-schema-library';
 import React, { useEffect, useRef, useState } from 'react';
+import { useI18n } from '../i18n';
 import MonacoEditor from '../MonacoEditor';
 import { parseJsonStr, resolveJsonSchemaRef } from '../utils';
 
@@ -13,6 +14,7 @@ type ImportModalProps = {
 
 const ImportModal = (props: ImportModalProps) => {
   const { open, onOk, onCancel } = props;
+  const { t } = useI18n();
   const [messageApi, contextHolder] = message.useMessage();
   const [importValue, setImportValue] = useState<string | undefined>();
   const [modalOpen, setModalOpen] = useState<boolean>();
@@ -41,17 +43,17 @@ const ImportModal = (props: ImportModalProps) => {
     <>
       {contextHolder}
       <Modal
-        title="导入"
+        title={t('Import')}
         width={900}
         open={modalOpen}
         onOk={async () => {
           if (!importValue || importValue.length === 0) {
-            messageApi.warning('请输入导入的 Json 数据');
+            messageApi.warning(t('ImportEmptyJsonWarnMsg'));
             return;
           }
           const importObject = parseJsonStr(importValue);
           if (!importObject) {
-            messageApi.error('导入的内容不是 Json 格式的数据');
+            messageApi.warning(t('ImportNotJsonWarnMsg'));
             return;
           }
           let schema;
@@ -64,7 +66,7 @@ const ImportModal = (props: ImportModalProps) => {
               break;
           }
           if (!schema) {
-            messageApi.warning('导入的内容有误，请检查后重新导入');
+            messageApi.warning(t('ImportErrorContentWarnMsg'));
             return;
           } else {
             const ajv = new Ajv({ allErrors: true });
