@@ -1,6 +1,6 @@
 {
   "name": "@quiet-front-end/json-schema-editor-antd",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "private": false,
   "description": "Json Schema Editor",
   "keywords": [

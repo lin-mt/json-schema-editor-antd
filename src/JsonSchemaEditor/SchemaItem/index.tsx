@@ -33,7 +33,6 @@ import {
 type SchemaItemProps = {
   propertyName?: string;
   nodeDepth?: number;
-  parentSchemaDepth?: number;
   namePath?: number[];
   isArrayItems?: boolean;
   isRequire?: boolean;
@@ -46,11 +45,7 @@ type SchemaItemProps = {
   renameProperty?: (namePath: number[], name: string) => void;
   removeProperty?: (namePath: number[]) => void;
   addProperty?: (path: number[], isChild: boolean) => void;
-  updateRequiredProperty?: (
-    path: number[],
-    requiredProperty: string,
-    removed: boolean,
-  ) => void;
+  updateRequiredProperty?: (namePath: number[], removed: boolean) => void;
   handleAdvancedSettingClick?: (
     namePath: number[],
     schema: JSONSchema7,
@@ -67,7 +62,6 @@ function SchemaItem(props: SchemaItemProps) {
     renameProperty,
     isArrayItems,
     updateRequiredProperty,
-    parentSchemaDepth = 0,
     removeProperty,
     addProperty,
     isRequire,
@@ -184,11 +178,7 @@ function SchemaItem(props: SchemaItemProps) {
             checked={isRequire}
             onChange={(e) => {
               if (updateRequiredProperty && propertyName) {
-                updateRequiredProperty(
-                  namePath.slice(0, parentSchemaDepth),
-                  propertyName,
-                  !e.target.checked,
-                );
+                updateRequiredProperty(namePath, !e.target.checked);
               }
             }}
           />
@@ -360,7 +350,6 @@ function SchemaItem(props: SchemaItemProps) {
                   isRequire={schema.required?.includes(name)}
                   isArrayItems={false}
                   nodeDepth={nodeDepth + 1}
-                  parentSchemaDepth={!isRoot ? parentSchemaDepth + 2 : 0}
                   namePath={namePath.concat(
                     getPropertyIndex(schema, 'properties'),
                     getPropertyIndex(schema.properties, name),
@@ -380,7 +369,6 @@ function SchemaItem(props: SchemaItemProps) {
           isRequire={false}
           isArrayItems={true}
           nodeDepth={nodeDepth + 1}
-          parentSchemaDepth={!isRoot ? parentSchemaDepth + 1 : 0}
           propertyName={'items'}
           namePath={namePath.concat(getPropertyIndex(schema, 'items'))}
           schema={schema.items as JSONSchema7}
