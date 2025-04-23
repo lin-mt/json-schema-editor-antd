@@ -13,6 +13,7 @@ import {
 } from 'antd';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useI18n } from '../i18n';
 import MonacoEditor from '../MonacoEditor';
 import { SchemaTypes, StringFormat } from '../utils';
 
@@ -26,6 +27,7 @@ interface AdvancedSettingModalProps {
 export default (props: AdvancedSettingModalProps) => {
   const { schema, open = false, onOk, onCancel } = props;
 
+  const { t } = useI18n();
   const { token } = theme.useToken();
   const [advancedForm] = Form.useForm();
   const [formSchema, setFormSchema] = useState<any>();
@@ -94,7 +96,7 @@ export default (props: AdvancedSettingModalProps) => {
 
   return (
     <Modal
-      title="高级设置2"
+      title={t('AdvancedSettings')}
       width={900}
       open={advancedModal}
       onOk={() => {
@@ -128,32 +130,32 @@ export default (props: AdvancedSettingModalProps) => {
               marginBottom: 13,
             }}
           >
-            基本设置
+            {t('BasicSettings')}
           </div>
         )}
         {(isString || isNumber || isInteger || isBoolean) && (
           <Row justify={'start'} align={'middle'} style={{ marginBottom: 13 }}>
             <Col span={4} style={{ textAlign: 'right' }}>
-              默认值：
+              {t('DefaultValue')}：
             </Col>
             <Col span={8}>
               <Form.Item noStyle name={'default'}>
                 {isString && (
                   <Input
                     style={{ width: '100%' }}
-                    placeholder={'请输入默认值'}
+                    placeholder={t('DefaultValuePlaceholder')}
                   />
                 )}
                 {(isNumber || isInteger) && (
                   <InputNumber
                     style={{ width: '100%' }}
-                    placeholder={'请输入默认值'}
+                    placeholder={t('DefaultValuePlaceholder')}
                   />
                 )}
                 {isBoolean && (
                   <Select
                     style={{ width: '100%' }}
-                    placeholder={'请选择默认值'}
+                    placeholder={t('SelectDefaultValuePlaceholder')}
                     options={[
                       { value: true, label: 'true' },
                       { value: false, label: 'false' },
@@ -167,7 +169,7 @@ export default (props: AdvancedSettingModalProps) => {
         {isString && (
           <Row justify={'start'} align={'middle'} style={{ marginBottom: 13 }}>
             <Col span={4} style={{ textAlign: 'right' }}>
-              最小长度：
+              {t('MinimumLength')}：
             </Col>
             <Col span={8}>
               <Form.Item noStyle name={'minLength'}>
@@ -180,12 +182,12 @@ export default (props: AdvancedSettingModalProps) => {
                   formatter={(value) =>
                     value ? `${Math.floor(Math.max(value, 0))}` : ''
                   }
-                  placeholder={'请输入最小长度'}
+                  placeholder={t('MinimumLengthPlaceholder')}
                 />
               </Form.Item>
             </Col>
             <Col span={4} style={{ textAlign: 'right' }}>
-              最大长度：
+              {t('MaximumLength')}：
             </Col>
             <Col span={8}>
               <Form.Item noStyle name={'maxLength'}>
@@ -198,7 +200,7 @@ export default (props: AdvancedSettingModalProps) => {
                   formatter={(value) =>
                     value ? `${Math.floor(Math.max(value, 0))}` : ''
                   }
-                  placeholder={'请输入最大长度'}
+                  placeholder={t('MaximumLengthPlaceholder')}
                 />
               </Form.Item>
             </Col>
@@ -212,24 +214,24 @@ export default (props: AdvancedSettingModalProps) => {
               style={{ marginBottom: 13 }}
             >
               <Col span={4} style={{ textAlign: 'right' }}>
-                最小值：
+                {t('Minimum')}：
               </Col>
               <Col span={8}>
                 <Form.Item noStyle name={'minimum'}>
                   <InputNumber
                     style={{ width: '100%' }}
-                    placeholder={'请输入最小值'}
+                    placeholder={t('MinimumPlaceholder')}
                   />
                 </Form.Item>
               </Col>
               <Col span={4} style={{ textAlign: 'right' }}>
-                最大值：
+                {t('Maximum')}：
               </Col>
               <Col span={8}>
                 <Form.Item noStyle name={'maximum'}>
                   <InputNumber
                     style={{ width: '100%' }}
-                    placeholder={'请输入最大值'}
+                    placeholder={t('MaximumPlaceholder')}
                   />
                 </Form.Item>
               </Col>
@@ -240,24 +242,24 @@ export default (props: AdvancedSettingModalProps) => {
               style={{ marginBottom: 13 }}
             >
               <Col span={4} style={{ textAlign: 'right' }}>
-                排他最小值：
+                {t('ExclusiveMinimum')}：
               </Col>
               <Col span={8}>
                 <Form.Item noStyle name={'exclusiveMinimum'}>
                   <InputNumber
                     style={{ width: '100%' }}
-                    placeholder={'请输入排他最小值'}
+                    placeholder={t('ExclusiveMinimumPlaceholder')}
                   />
                 </Form.Item>
               </Col>
               <Col span={4} style={{ textAlign: 'right' }}>
-                排他最大值：
+                {t('ExclusiveMaximum')}：
               </Col>
               <Col span={8}>
                 <Form.Item noStyle name={'exclusiveMaximum'}>
                   <InputNumber
                     style={{ width: '100%' }}
-                    placeholder={'请输入排他最大值'}
+                    placeholder={t('ExclusiveMaximumPlaceholder')}
                   />
                 </Form.Item>
               </Col>
@@ -272,11 +274,11 @@ export default (props: AdvancedSettingModalProps) => {
               style={{ marginBottom: 13 }}
             >
               <Col span={4} style={{ textAlign: 'right' }}>
-                正则匹配：
+                {t('RegularMatch')}：
               </Col>
               <Col span={20}>
                 <Form.Item noStyle name={'pattern'}>
-                  <Input placeholder={'请输入正则匹配公式'} />
+                  <Input placeholder={t('RegularMatchPlaceholder')} />
                 </Form.Item>
               </Col>
             </Row>
@@ -286,14 +288,14 @@ export default (props: AdvancedSettingModalProps) => {
               style={{ marginBottom: 13 }}
             >
               <Col span={4} style={{ textAlign: 'right' }}>
-                格式：
+                {t('Format')}：
               </Col>
               <Col span={8}>
                 <Form.Item noStyle name={'format'}>
                   <Select
                     allowClear
                     options={StringFormat}
-                    placeholder={'请选择字符串格式'}
+                    placeholder={t('FormatPlaceholder')}
                     style={{ width: '100%' }}
                   />
                 </Form.Item>
@@ -309,7 +311,7 @@ export default (props: AdvancedSettingModalProps) => {
               style={{ marginBottom: 13 }}
             >
               <Col span={4} style={{ textAlign: 'right' }}>
-                元素唯一：
+                {t('UniqueItems')}：
               </Col>
               <Col span={20}>
                 <Form.Item noStyle name={'uniqueItems'} valuePropName="checked">
@@ -323,7 +325,7 @@ export default (props: AdvancedSettingModalProps) => {
               style={{ marginBottom: 13 }}
             >
               <Col span={4} style={{ textAlign: 'right' }}>
-                最少元素个数：
+                {t('MinItems')}：
               </Col>
               <Col span={8}>
                 <Form.Item noStyle name={'minItems'}>
@@ -335,12 +337,12 @@ export default (props: AdvancedSettingModalProps) => {
                     formatter={(value) =>
                       value ? `${Math.floor(Math.max(value, 0))}` : ''
                     }
-                    placeholder={'请输入最少元素个数'}
+                    placeholder={t('MinItemsPlaceholder')}
                   />
                 </Form.Item>
               </Col>
               <Col span={4} style={{ textAlign: 'right' }}>
-                最多元素个数：
+                {t('MaxItems')}：
               </Col>
               <Col span={8}>
                 <Form.Item noStyle name={'maxItems'}>
@@ -352,7 +354,7 @@ export default (props: AdvancedSettingModalProps) => {
                     formatter={(value) =>
                       value ? `${Math.floor(Math.max(value, 0))}` : ''
                     }
-                    placeholder={'请输入最多元素个数'}
+                    placeholder={t('MaxItemsPlaceholder')}
                   />
                 </Form.Item>
               </Col>
@@ -362,7 +364,7 @@ export default (props: AdvancedSettingModalProps) => {
         {(isString || isNumber || isInteger) && (
           <Row justify={'start'} align={'middle'} style={{ marginBottom: 13 }}>
             <Col span={4} style={{ textAlign: 'right' }}>
-              枚举：
+              {t('Enums')}：
             </Col>
             <Col span={20}>
               <Form.List name="enums">
@@ -385,12 +387,12 @@ export default (props: AdvancedSettingModalProps) => {
                                 rules={[{ required: true }]}
                               >
                                 {isString && (
-                                  <Input placeholder="请输入枚举值" />
+                                  <Input placeholder={t('EnumsPlaceholder')} />
                                 )}
                                 {(isNumber || isInteger) && (
                                   <InputNumber
                                     style={{ width: '100%' }}
-                                    placeholder="请输入枚举值"
+                                    placeholder={t('EnumsPlaceholder')}
                                   />
                                 )}
                               </Form.Item>
@@ -416,7 +418,7 @@ export default (props: AdvancedSettingModalProps) => {
                             block
                             icon={<PlusOutlined />}
                           >
-                            添加枚举值
+                            {t('AddEnums')}
                           </Button>
                         </Form.Item>
                       </Col>

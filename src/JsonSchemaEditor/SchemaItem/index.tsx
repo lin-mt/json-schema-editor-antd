@@ -22,6 +22,7 @@ import {
 } from 'antd';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useI18n } from '../i18n';
 import { JSONSchema7 } from '../types';
 import {
   getDefaultSchema,
@@ -54,6 +55,7 @@ type SchemaItemProps = {
 
 function SchemaItem(props: SchemaItemProps) {
   const { token } = theme.useToken();
+  const { t } = useI18n();
   const [messageApi, contextHolder] = message.useMessage();
   const {
     changeSchema,
@@ -153,10 +155,10 @@ function SchemaItem(props: SchemaItemProps) {
             status={!isRoot && propertyName.length === 0 ? 'error' : undefined}
             disabled={isRoot || isArrayItems}
             value={isRoot ? 'root' : propertyName}
-            placeholder={'属性名称'}
+            placeholder={t('PropertyPlaceholder')}
             onBlur={() => {
               if (propertyName?.length === 0) {
-                messageApi.error('属性名称不能为空');
+                messageApi.warning(t('PropertyNameEmptyWarnMsg')).then();
                 return;
               }
               if (
@@ -195,7 +197,7 @@ function SchemaItem(props: SchemaItemProps) {
         </Col>
         <Col flex={'auto'} style={{ marginLeft: 5 }}>
           <Input
-            placeholder={'标题'}
+            placeholder={t('TitlePlaceholder')}
             value={schemaTitle}
             onBlur={() => {
               if (changeSchema) {
@@ -211,7 +213,7 @@ function SchemaItem(props: SchemaItemProps) {
         </Col>
         <Col flex={'auto'} style={{ marginLeft: 5 }}>
           <Input
-            placeholder={'描述'}
+            placeholder={t('DescriptionPlaceholder')}
             value={schemaDescription}
             onBlur={() => {
               if (changeSchema) {
@@ -229,7 +231,7 @@ function SchemaItem(props: SchemaItemProps) {
         </Col>
         <Col flex={'72px'} style={{ marginLeft: 5 }}>
           <Row style={{ width: '72px' }}>
-            <Tooltip title={'高级设置'}>
+            <Tooltip title={t('AdvancedSettings')}>
               <Button
                 type={'text'}
                 size={'small'}
@@ -260,7 +262,7 @@ function SchemaItem(props: SchemaItemProps) {
                   items: [
                     {
                       key: 'addNode',
-                      label: '同级节点',
+                      label: t('SiblingNodes'),
                       onClick: () => {
                         if (addProperty) {
                           addProperty(namePath, false);
@@ -269,7 +271,7 @@ function SchemaItem(props: SchemaItemProps) {
                     },
                     {
                       key: 'addChildNode',
-                      label: '子级节点',
+                      label: t('ChildNodes'),
                       onClick: () => {
                         if (addProperty) {
                           addProperty(namePath, true);
@@ -279,7 +281,7 @@ function SchemaItem(props: SchemaItemProps) {
                   ],
                 }}
               >
-                <Tooltip title={!addChildItems && '添加节点'}>
+                <Tooltip title={!addChildItems && t('AddNode')}>
                   <Button
                     type={'text'}
                     size={'small'}
@@ -301,7 +303,7 @@ function SchemaItem(props: SchemaItemProps) {
             )}
             <Col flex={'24px'}>
               {isRoot ? (
-                <Tooltip title={'导入Json'}>
+                <Tooltip title={t('ImportJson')}>
                   <Button
                     type={'text'}
                     size={'small'}
@@ -311,7 +313,7 @@ function SchemaItem(props: SchemaItemProps) {
                   />
                 </Tooltip>
               ) : !isArrayItems ? (
-                <Tooltip title={'删除节点'}>
+                <Tooltip title={t('DeleteNode')}>
                   <Button
                     danger
                     type={'text'}
