@@ -6,8 +6,8 @@ import {
   PlusOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
-import AdvancedSettingModal from '@quiet-front-end/json-schema-editor-antd/JsonSchemaEditor/SchemaItem/AdvancedSettingModal';
-import ImportModal from '@quiet-front-end/json-schema-editor-antd/JsonSchemaEditor/SchemaItem/ImportModal';
+import AdvancedSettingModal from '@flodejs/json-schema-editor-antd/JsonSchemaEditor/SchemaItem/AdvancedSettingModal';
+import ImportModal from '@flodejs/json-schema-editor-antd/JsonSchemaEditor/SchemaItem/ImportModal';
 import {
   Button,
   Checkbox,

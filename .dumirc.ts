@@ -8,7 +8,7 @@ export default defineConfig({
   base: '/json-schema-editor-antd/',
   publicPath: '/json-schema-editor-antd/',
   themeConfig: {
-    name: 'Quiet',
+    name: 'Flode',
     socialLinks: {
       github: 'https://github.com/lin-mt/json-schema-editor-antd',
     },

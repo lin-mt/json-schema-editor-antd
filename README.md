@@ -1,7 +1,7 @@
-# @quiet-front-end/json-schema-editor-antd
+# @flodejs/json-schema-editor-antd
 
-[![NPM version](https://img.shields.io/npm/v/@quiet-front-end/json-schema-editor-antd.svg?style=flat)](https://npmjs.org/package/@quiet-front-end/json-schema-editor-antd)
-[![NPM downloads](http://img.shields.io/npm/dm/@quiet-front-end/json-schema-editor-antd.svg?style=flat)](https://npmjs.org/package/@quiet-front-end/json-schema-editor-antd)
+[![NPM version](https://img.shields.io/npm/v/@flodejs/json-schema-editor-antd.svg?style=flat)](https://npmjs.org/package/@flodejs/json-schema-editor-antd)
+[![NPM downloads](http://img.shields.io/npm/dm/@flodejs/json-schema-editor-antd.svg?style=flat)](https://npmjs.org/package/@flodejs/json-schema-editor-antd)
 ![](https://img.shields.io/badge/license-MIT-000000.svg)
 
 [Antd Design](https://ant.design/) 风格的 Json Schema 可视化编辑器。
@@ -11,12 +11,12 @@
 ## Usage
 
 ```shell
-npm install @quiet-front-end/json-schema-editor-antd
+npm install @flodejs/json-schema-editor-antd
 ```
 
 ```jsx
 import { useState } from 'react';
-import JsonSchemaEditor from '@quiet-front-end/json-schema-editor-antd';
+import JsonSchemaEditor from '@flodejs/json-schema-editor-antd';
 
 export default () => {
   const [jsonSchema, setJsonSchema] = useState();

@@ -1,6 +1,6 @@
 {
-  "name": "@quiet-front-end/json-schema-editor-antd",
-  "version": "1.0.9",
+  "name": "@flodejs/json-schema-editor-antd",
+  "version": "1.0.0",
   "private": false,
   "description": "Json Schema Editor",
   "keywords": [
@@ -62,7 +62,7 @@
     "@monaco-editor/react": "^4.6.0",
     "ajv": "^8.17.1",
     "antd": "^5.22.2",
-    "json-schema-library": "^10.0.0-rc5",
+    "json-schema-library": "^10.0.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

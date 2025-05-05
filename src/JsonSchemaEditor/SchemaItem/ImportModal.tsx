@@ -1,6 +1,6 @@
 import Ajv from 'ajv';
 import { message, Modal, Radio, Row } from 'antd';
-import { Draft07 } from 'json-schema-library';
+import { compileSchema, draft2020 } from 'json-schema-library';
 import React, { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../i18n';
 import MonacoEditor from '../MonacoEditor';
@@ -59,7 +59,7 @@ const ImportModal = (props: ImportModalProps) => {
           let schema;
           switch (importType) {
             case 'json':
-              schema = new Draft07().createSchemaOf(importObject);
+              schema = compileSchema(draft2020).createSchema(importObject);
               break;
             case 'json-schema':
               schema = await resolveJsonSchemaRef(importObject);
