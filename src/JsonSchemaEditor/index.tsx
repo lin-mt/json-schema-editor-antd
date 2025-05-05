@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { Empty, message } from 'antd';
 import _ from 'lodash';
 import React, {
   forwardRef,
@@ -55,7 +55,7 @@ const JsonSchemaEditor = forwardRef<JsonSchemaEditorHandle, SchemaEditorProps>(
     //   }
     // })
 
-    const [schema, setSchema] = useState<JSONSchema7>(initSchema(props.data));
+    const [schema, setSchema] = useState<JSONSchema7>(initSchema(props.value));
     const [fieldCount, setFieldCount] = useState(0);
 
     useEffect(() => {
@@ -245,17 +245,21 @@ const JsonSchemaEditor = forwardRef<JsonSchemaEditorHandle, SchemaEditorProps>(
     useImperativeHandle(ref, () => ({ changeSchema }));
 
     return (
-      <div style={{ paddingTop: '10px 10px 0 10px' }}>
+      <div style={{ ...props.style }}>
         {contextHolder}
-        <SchemaItem
-          schema={schema}
-          changeSchema={changeSchema}
-          renameProperty={renameProperty}
-          removeProperty={removeProperty}
-          addProperty={addProperty}
-          updateRequiredProperty={updateRequiredProperty}
-          handleAdvancedSettingClick={props.handleAdvancedSettingClick}
-        />
+        {schema ? (
+          <SchemaItem
+            schema={schema}
+            changeSchema={changeSchema}
+            renameProperty={renameProperty}
+            removeProperty={removeProperty}
+            addProperty={addProperty}
+            updateRequiredProperty={updateRequiredProperty}
+            handleAdvancedSettingClick={props.handleAdvancedSettingClick}
+          />
+        ) : (
+          <Empty />
+        )}
       </div>
     );
   },

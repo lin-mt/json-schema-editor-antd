@@ -1,5 +1,8 @@
+import { CSSProperties } from 'react';
+
 export type SchemaEditorProps = {
-  data?: JSONSchema7 | undefined | string;
+  value?: JSONSchema7 | undefined | string;
+  style?: CSSProperties;
   onSchemaChange?: (schema: JSONSchema7) => void;
   handleAdvancedSettingClick?: (
     namePath: number[],
