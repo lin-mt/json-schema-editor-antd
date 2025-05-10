@@ -37,7 +37,7 @@ loader.config({ monaco });
 
 JsonSchema 变更的回调。
 
-类型：`(schema: JSONSchema7) => void`
+类型：`(schema: JSONSchema) => void`
 
 默认值： `-`
 
@@ -45,7 +45,7 @@ JsonSchema 变更的回调。
 
 初始化组件数据。
 
-类型：`JSONSchema7 | string | undefined`
+类型：`JSONSchema | string | undefined`
 
 默认值：
 
@@ -64,7 +64,7 @@ JsonSchema 变更的回调。
 
 点击`高级设置`按钮的回调，返回`false`：不使用默认表单，返回`true`：使用默认表单。
 
-类型：`(namePath: number[], schema: JSONSchema7, propertyName?: string) => boolean`
+类型：`(namePath: number[], schema: JSONSchema, propertyName?: string) => boolean`
 
 默认值：`-`
 

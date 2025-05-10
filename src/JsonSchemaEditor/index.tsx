@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import SchemaItem from './SchemaItem';
-import { JSONSchema7, SchemaEditorProps } from './types';
+import { JSONSchema, SchemaEditorProps } from './types';
 import { getDefaultSchema, getValueByPath, inferSchema } from './utils';
 
 export interface JsonSchemaEditorHandle {
@@ -18,8 +18,8 @@ const JsonSchemaEditor = forwardRef<JsonSchemaEditorHandle, SchemaEditorProps>(
   (props, ref) => {
     const [messageApi, contextHolder] = message.useMessage();
 
-    function initSchema(data: string | undefined | JSONSchema7): JSONSchema7 {
-      const defaultSchema: JSONSchema7 = {
+    function initSchema(data: string | undefined | JSONSchema): JSONSchema {
+      const defaultSchema: JSONSchema = {
         type: 'object',
         properties: {
           field: { type: 'string' },
@@ -43,7 +43,7 @@ const JsonSchemaEditor = forwardRef<JsonSchemaEditorHandle, SchemaEditorProps>(
       }
     }
 
-    // const [schema, setSchema] = useState<JSONSchema7>({
+    // const [schema, setSchema] = useState<JSONSchema>({
     //   type: 'object', properties: {
     //     'objectP': {type: 'object', properties: {'o1numberP': {type: 'number'}}},
     //     'numberP': {type: 'number'},
@@ -55,7 +55,7 @@ const JsonSchemaEditor = forwardRef<JsonSchemaEditorHandle, SchemaEditorProps>(
     //   }
     // })
 
-    const [schema, setSchema] = useState<JSONSchema7>(initSchema(props.value));
+    const [schema, setSchema] = useState<JSONSchema>(initSchema(props.value));
     const [fieldCount, setFieldCount] = useState(0);
 
     useEffect(() => {
