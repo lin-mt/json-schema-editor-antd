@@ -16,5 +16,5 @@ features:
     description: 可视化编辑 Json Schema
   - title: 标准
     emoji: 🚀
-    description: JSON Schema Draft 07 标准
+    description: JSON Schema Draft 20 标准
 ---

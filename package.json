@@ -57,11 +57,10 @@
     ]
   },
   "dependencies": {
-    "@ant-design/icons": "^5.3.7",
     "@apidevtools/json-schema-ref-parser": "^11.7.3",
+    "@babel/runtime": "^7.27.1",
     "@monaco-editor/react": "^4.6.0",
     "ajv": "^8.17.1",
-    "antd": "^5.22.2",
     "json-schema-library": "^10.0.0",
     "lodash": "^4.17.21"
   },
@@ -85,6 +84,8 @@
     "stylelint": "^14.9.1"
   },
   "peerDependencies": {
+    "@ant-design/icons": "^5.3.7",
+    "antd": "^5.22.2",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },

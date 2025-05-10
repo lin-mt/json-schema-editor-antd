@@ -70,6 +70,18 @@ JsonSchema 变更的回调。
 
 说明：可以结合`组件引用`实现点击高级设置按钮后获取路径下的 JsonSchema，添加、修改自定义字段等，然后修改指定路径下的 JsonSchema。
 
+### 国际化
+
+支持 antd 的 ConfigureProvider。
+
+```ts
+// 支持扩展或覆盖默认语言配置
+registerLocale('zh-cn', {
+  PropertyPlaceholder: '请输入属性名称',
+  // ...
+});
+```
+
 ## 组件引用（ref）
 
 ```ts

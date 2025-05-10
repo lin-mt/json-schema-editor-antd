@@ -22,9 +22,9 @@ export default () => {
   const [jsonSchema, setJsonSchema] = useState();
   return (
     <JsonSchemaEditor
-      data={jsonSchema}
-      onChange={(data) => {
-        setJsonSchema(data);
+      value={jsonSchema}
+      onChange={(schema) => {
+        setJsonSchema(schema);
       }}
     />
   );
