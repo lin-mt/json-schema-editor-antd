@@ -1,18 +1,18 @@
 import { CSSProperties } from 'react';
 
 export type SchemaEditorProps = {
-  value?: JSONSchema7 | undefined | string;
+  value?: JSONSchema | undefined | string;
   style?: CSSProperties;
-  onSchemaChange?: (schema: JSONSchema7) => void;
+  onSchemaChange?: (schema: JSONSchema) => void;
   handleAdvancedSettingClick?: (
     namePath: number[],
-    schema: JSONSchema7,
+    schema: JSONSchema,
     propertyName?: string,
   ) => boolean;
 };
 
 //==================================================================================================
-// JSON Schema Draft 07
+// JSON Schema Draft 20
 //==================================================================================================
 // https://tools.ietf.org/html/draft-handrews-json-schema-validation-01
 //--------------------------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ export type SchemaEditorProps = {
  * Primitive type
  * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01#section-6.1.1
  */
-export type JSONSchema7TypeName =
+export type JSONSchemaTypeName =
   | 'string'
   | 'number'
   | 'integer'
@@ -34,22 +34,22 @@ export type JSONSchema7TypeName =
  * Primitive type
  * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01#section-6.1.1
  */
-export type JSONSchema7Type =
+export type JSONSchemaType =
   | string
   | number
   | boolean
-  | JSONSchema7Object
-  | JSONSchema7Array
+  | JSONSchemaObject
+  | JSONSchemaArray
   | null;
 
 // Workaround for infinite type recursion
-export interface JSONSchema7Object {
-  [key: string]: JSONSchema7Type;
+export interface JSONSchemaObject {
+  [key: string]: JSONSchemaType;
 }
 
 // Workaround for infinite type recursion
 // https://github.com/Microsoft/TypeScript/issues/3496#issuecomment-128553540
-export type JSONSchema7Array = Array<JSONSchema7Type>;
+export type JSONSchemaArray = Array<JSONSchemaType>;
 
 /**
  * Meta schema
@@ -57,31 +57,31 @@ export type JSONSchema7Array = Array<JSONSchema7Type>;
  * Recommended values:
  * - 'http://json-schema.org/schema#'
  * - 'http://json-schema.org/hyper-schema#'
- * - 'http://json-schema.org/draft-07/schema#'
- * - 'http://json-schema.org/draft-07/hyper-schema#'
+ * - 'https://json-schema.org/draft/2020-12/schema#'
+ * - 'http://json-schema.org/draft/2020-12/hyper-schema#'
  *
  * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01#section-5
  */
-export type JSONSchema7Version = string;
+export type JSONSchemaVersion = string;
 
 /**
  * JSON Schema v7
  * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01
  */
-export type JSONSchema7Definition = JSONSchema7 | boolean;
+export type JSONSchemaDefinition = JSONSchema | boolean;
 
-export interface JSONSchema7 {
+export interface JSONSchema {
   $id?: string;
   $ref?: string;
-  $schema?: JSONSchema7Version;
+  $schema?: JSONSchemaVersion;
   $comment?: string;
 
   /**
    * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01#section-6.1
    */
-  type?: JSONSchema7TypeName | JSONSchema7TypeName[];
-  enum?: JSONSchema7Type[];
-  const?: JSONSchema7Type;
+  type?: JSONSchemaTypeName | JSONSchemaTypeName[];
+  enum?: JSONSchemaType[];
+  const?: JSONSchemaType;
 
   /**
    * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01#section-6.2
@@ -102,12 +102,12 @@ export interface JSONSchema7 {
   /**
    * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01#section-6.4
    */
-  items?: JSONSchema7Definition | JSONSchema7Definition[];
-  additionalItems?: JSONSchema7Definition;
+  items?: JSONSchemaDefinition | JSONSchemaDefinition[];
+  additionalItems?: JSONSchemaDefinition;
   maxItems?: number;
   minItems?: number;
   uniqueItems?: boolean;
-  contains?: JSONSchema7;
+  contains?: JSONSchema;
 
   /**
    * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01#section-6.5
@@ -116,31 +116,31 @@ export interface JSONSchema7 {
   minProperties?: number;
   required?: string[];
   properties?: {
-    [key: string]: JSONSchema7Definition;
+    [key: string]: JSONSchemaDefinition;
   };
   patternProperties?: {
-    [key: string]: JSONSchema7Definition;
+    [key: string]: JSONSchemaDefinition;
   };
-  additionalProperties?: JSONSchema7Definition;
+  additionalProperties?: JSONSchemaDefinition;
   dependencies?: {
-    [key: string]: JSONSchema7Definition | string[];
+    [key: string]: JSONSchemaDefinition | string[];
   };
-  propertyNames?: JSONSchema7Definition;
+  propertyNames?: JSONSchemaDefinition;
 
   /**
    * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01#section-6.6
    */
-  if?: JSONSchema7Definition;
-  then?: JSONSchema7Definition;
-  else?: JSONSchema7Definition;
+  if?: JSONSchemaDefinition;
+  then?: JSONSchemaDefinition;
+  else?: JSONSchemaDefinition;
 
   /**
    * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01#section-6.7
    */
-  allOf?: JSONSchema7Definition[];
-  anyOf?: JSONSchema7Definition[];
-  oneOf?: JSONSchema7Definition[];
-  not?: JSONSchema7Definition;
+  allOf?: JSONSchemaDefinition[];
+  anyOf?: JSONSchemaDefinition[];
+  oneOf?: JSONSchemaDefinition[];
+  not?: JSONSchemaDefinition;
 
   /**
    * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01#section-7
@@ -157,7 +157,7 @@ export interface JSONSchema7 {
    * @see https://tools.ietf.org/html/draft-handrews-json-schema-validation-01#section-9
    */
   definitions?: {
-    [key: string]: JSONSchema7Definition;
+    [key: string]: JSONSchemaDefinition;
   };
 
   /**
@@ -165,8 +165,8 @@ export interface JSONSchema7 {
    */
   title?: string;
   description?: string;
-  default?: JSONSchema7Type;
+  default?: JSONSchemaType;
   readOnly?: boolean;
   writeOnly?: boolean;
-  examples?: JSONSchema7Type;
+  examples?: JSONSchemaType;
 }

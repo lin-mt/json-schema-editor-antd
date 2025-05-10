@@ -1,7 +1,7 @@
 import $RefParser from '@apidevtools/json-schema-ref-parser';
 import { JsonSchema } from 'json-schema-library';
 import _ from 'lodash';
-import { JSONSchema7Definition, JSONSchema7TypeName } from './types';
+import { JSONSchemaDefinition, JSONSchemaTypeName } from './types';
 
 // 解析 JSON Schema 中的 $ref
 function resolveRef(schema: JsonSchema, rootSchema: JsonSchema): JsonSchema {
@@ -213,8 +213,8 @@ export const SchemaTypeOptions = SchemaTypes.map((value) => {
 });
 
 export function getDefaultSchema(
-  type: JSONSchema7TypeName | JSONSchema7TypeName[],
-): JSONSchema7Definition {
+  type: JSONSchemaTypeName | JSONSchemaTypeName[],
+): JSONSchemaDefinition {
   switch (type) {
     case 'string':
       return { type: 'string' };
